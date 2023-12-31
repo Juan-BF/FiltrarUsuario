@@ -1,0 +1,65 @@
+.box {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.conten {
+  width: 600px;
+  height: 400px;
+  background-color: #F8FAFC;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.inputEstilo input {
+  all: unset;
+  width: 60%;
+  height: 29px;
+  background-color: #242424;
+  color: #F8FAFC;
+  padding: 0 10px 0 10px;
+  margin: 5px 0 5px 85px;
+}
+
+.btn{
+  all: unset;
+  color: #F8FAFC;
+  width: 90px;
+  height: 29px;
+  text-align: center;
+}
+
+.buscar {
+  /* border-radius:  0 0 400px 0; */
+  background-color: #3caac5;
+
+
+}
+
+.agregar{
+  background-color: #16bb6e;
+}
+
+
+.titulo {
+  font-size: 2.1rem;
+  font-weight: 400;
+  margin: 25px;
+}
+.lista li{
+  font-size: 1.2rem;
+
+}
+.lista {
+  display: flex;
+  width: 78%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.listUsuarios{
+  display: flex;
+}

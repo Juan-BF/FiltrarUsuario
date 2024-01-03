@@ -3,20 +3,19 @@ import './App.css'
 
 const Principal = () => {
 
-  async function apiUserRamdom() {
-    const solicitud = await fetch('https://randomuser.me/api/?results=5')
-    const respuesta = await solicitud.json()
-    return respuesta
-  }
 
-
-  const [informacion, setInformacion] = useState([
-
-
-  ]);
+  const [busca, setBusca] = useState("")
+  const [informacion, setInformacion] = useState([]);
 
 
   useEffect(() => {
+
+    async function apiUserRamdom() {
+      const solicitud = await fetch('https://randomuser.me/api/?results=5')
+      const respuesta = await solicitud.json()
+      return respuesta
+    }
+
     const fetchData = async () => {
       try {
 
@@ -49,18 +48,27 @@ const Principal = () => {
           });
 
           setInformacion(informacionUsuarios);
-          console.log(informacionUsuarios);
+
         }
+
       } catch (error) {
         console.error('Error al obtener los datos del usuario:', error);
       }
     };
-
     fetchData();
-
   }, []);
 
-  console.log(informacion)
+
+  const handleInputChange = (e) => {
+    const nuevoValor = (e.target.value);
+    setBusca(nuevoValor);
+  };
+
+// defino una constante- agarro el objeto y le meto el filter-  tengo que definir donde voy a tomar la informacion en este caso es en inf.first
+// luego el doy startsWitch ( aqui pondre que buscare )
+  const filtro = informacion.filter((inf) => inf.first.toLowerCase().startsWith(busca.toLowerCase()));
+
+// console.log(filtro)
 
   return (
     <>
@@ -69,13 +77,15 @@ const Principal = () => {
           <h1 className='titulo'>Buscar Usuario</h1>
           <div className='inputEstilo'>
             <div>
-              <input type="text" id='buscarUsuario' placeholder="Buscar Usuario" />
+              <input type="text" id='buscarUsuario' placeholder="Buscar Usuario"
+                onChange={handleInputChange} 
+                />
               <input type="text" id='agregarUsuario' placeholder="Agregar Usuario" />
               <button className='agregar btn'>Agregar</button>
             </div>
           </div>
           <ul className='lista'>
-            {informacion.map((result, index) => (
+            {filtro.map((result, index) => (
               <li key={index}>
                 <div className='listUsuarios'>
                   <img src={result.thumbnail} alt="Imagen usuario" />

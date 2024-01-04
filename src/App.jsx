@@ -4,7 +4,8 @@ import './App.css'
 const Principal = () => {
 
 
-  const [busca, setBusca] = useState("")
+  const [filtro, setFiltro] = useState([]);
+  const [busca, setBusca] = useState("");
   const [informacion, setInformacion] = useState([]);
 
 
@@ -61,14 +62,42 @@ const Principal = () => {
 
   const handleInputChange = (e) => {
     const nuevoValor = (e.target.value);
+
     setBusca(nuevoValor);
   };
 
-// defino una constante- agarro el objeto y le meto el filter-  tengo que definir donde voy a tomar la informacion en este caso es en inf.first
-// luego el doy startsWitch ( aqui pondre que buscare )
-  const filtro = informacion.filter((inf) => inf.first.toLowerCase().startsWith(busca.toLowerCase()));
+  
+  const [valorInput, setValorInput] = useState('');
 
-// console.log(filtro)
+ 
+
+  const agregar = () => {
+    const nuevoUser = { first: valorInput, thumbnail: '/nuevo.png' };
+    const nuevoFiltro = [...filtro, nuevoUser];
+    setInformacion(nuevoFiltro);
+    setValorInput('');
+  }
+
+  const eliminar = (index) => {
+    const elim = filtro.filter((_, indez) => indez !== index)
+    setInformacion(elim)
+  }
+
+
+  useEffect(() => {
+    const filtro = informacion.filter((inf) => inf.first.toLowerCase().startsWith(busca.toLowerCase()));
+    setFiltro(filtro)
+  }, [busca,informacion]);
+
+
+  const nombreNuevo = (e) => {
+    setValorInput(e.target.value);
+    
+  };
+  
+
+
+
 
   return (
     <>
@@ -78,21 +107,22 @@ const Principal = () => {
           <div className='inputEstilo'>
             <div>
               <input type="text" id='buscarUsuario' placeholder="Buscar Usuario"
-                onChange={handleInputChange} 
-                />
-              <input type="text" id='agregarUsuario' placeholder="Agregar Usuario" />
-              <button className='agregar btn'>Agregar</button>
+                onChange={handleInputChange}
+              />
+              <input type="text" id='agregarUsuario' placeholder="Agregar Usuario"
+                onChange={nombreNuevo} value={valorInput} />
+              <button onClick={agregar} className='agregar btn'>Agregar</button>
             </div>
           </div>
           <ul className='lista'>
             {filtro.map((result, index) => (
-              <li key={index}>
+              <li key={index} className='listli' id={`${index}`} >
                 <div className='listUsuarios'>
                   <img src={result.thumbnail} alt="Imagen usuario" />
-                  <h3>
+                  <h3 className='nombreUs'>
                     {result.first}
                   </h3>
-                  <button>Eliminar</button>
+                  <button onClick={() => eliminar(index)}>Eliminar</button>
                 </div>
               </li>
             ))}
